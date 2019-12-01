@@ -11,3 +11,5 @@ There are 4 different centralized coordination strategies:
 4) a more dynamic 'farthest first' algorithm that climbs a gradient.
 
 Operation is done from the 'oracle', 'faf', or 'centralized' folder's Main.m file.
+
+Sample configurations and obstacles can be imported from the 'Configurations' and 'Obstacles' folders respectively.
