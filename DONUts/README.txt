@@ -3,7 +3,7 @@ developed in the Collective Embodied Intelligence Lab at Cornell University. Con
 questions.
 
 This is a simulation framework to support coordination of the DONUts modular robot.
-This includes algorithms to support basic functionallities of the DONUts such as communication, sensing and movement.
+This includes algorithms to support basic functionalities of the DONUts such as communication, sensing and movement.
 There are 4 different centralized coordination strategies:
 1) an optimal A*-based oracle, all seeing planner, with a priori knowledge of the environment
 2) an A*-based local planner without a priori knowledge of the environment
