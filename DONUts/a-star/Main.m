@@ -1,5 +1,7 @@
-%%FAF rigid simulation for the DONUTS
-%%This algorithm moves the bot with the highest gradient forward
+%%A*-search simulation for the DONUTS
+%%this algorithm iterativley identifies the highest gradient in the
+%%collective and plans a path for all modules to converge on that local
+%%goal until the global goal is reaches
 
 %%the current parameters will run a 10 module simulation, starting in an
 %%imported configuration and imported obstacle-filled environment
@@ -42,6 +44,10 @@ I.numBotsY = 4; %Number of rows of modules
 I.numObstacles = 2;%Number of obstacles that will populate the world
 I.posobs=[9.5 0.5;5 9]; %x and y location/s of the generated obstacle/s
 
+%For the A*-Search
+I.alpha = 0; %increase to improve connection redundancy
+I.heuristic = 2.5; %2 = Dmin, 2.5 = Dcom A*, 7 = Dcom oracle
+
 %Convergence criteria,
 I.Converge = 2; %2 = 2R, 0.1 = 2R + some std, 0.2 = within a specified radius
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -50,7 +56,7 @@ I.Converge = 2; %2 = 2R, 0.1 = 2R + some std, 0.2 = within a specified radius
 [modules,world,I]=Initialization(I);
 
 %%Run the above described algorithm and return the constructed path
-modulePlan = Faf1(modules,world,I); %can change to faf0
+modulePlan = CenA(modules,world,I);
 
 %%Plots a graph and saves relavent data to a .mat file
 I = Metrics(modulePlan,I);

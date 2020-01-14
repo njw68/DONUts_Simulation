@@ -1,54 +1,68 @@
 %%Oracle simulation for the DONUTS
 %%this algorithm uses A* search to plan an optimal path to the goal
 
-%%the current parameters will run a 10 module simulation, starting in a
-%%cluster, in a clear environment
-
-%change all paths to your file locations
-addpath(genpath('path\DONUts\util'))
-rmpath('path\DONUts\util\util-cen')
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%the current parameters will run a 10 module simulation, starting in an
+%%imported configuration and imported obstacle-filled environment
+warning off MATLAB:polyshape:repairedBySimplify
 clear all; close all;
 
-I.ranConfig = 1; %changed based on your configuration
-I.configName = num2str(I.ranConfig);
-I.ranObs = 1;  %change based on your obstacle
-I.obsName = num2str(I.ranObs);
+%1) File paths
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%adding/removing folders to the path
+addpath(genpath('C:\path\DONUts\util'))
+rmpath('C:\path\DONUts\util\util-oracle')
 
-%struct of constant parameters
-I.numBots = 10; %Number of bots in the collective
-I.numEPMs = 12; %Number of EPMs on each bot
-I.numIR = 4; %Number of IR sensors on each bot
+%The location to save videos, images, and .mat files
+I.pathname = 'C:\path\DONUts\Data\trial1\';
+%The locations to import saved configurations and obstacles
+I.readfileObs = 'C:\path\DONUts\Data\Obstacles\';
+I.readfileBots = 'C:\path\DONUts\Data\Configurations\';
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-I.numObstacles = 3;%Number of obstacles that will populate the world
-%The location to save video, images, and .mat files
-I.pathname = 'path\';
-I.readfileObs = 'path\Obstacles\obs';
-I.readfileBots = 'path\Configurations\';
-I.planname = strcat(I.configName,'.mp4');
+%2)Parameters
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+I.numBots = 10; %Number of modules in the collective
+I.numEPMs = 12; %Number of EPMs on each module
+I.numIR = 4; %Number of IR sensors on each module
 
-I.numBotsX = 3; %Number of columns of bots
-I.numBotsY = 4; %Number of rows of bots
-I.config = 0; %0 for fixed intial configuration, 1 for random configuration, 2 for imported configuration
-I.obs = 3; %1 = placed polygon obstacle, 2 = imported polygon obstacle, 3 = no obstacle, 4 = random obstacle
-I.Converge = 0.1; %convergence criteria, 2 = 2R, 0.1 = 2R + some std, 0.2 = within a specified radius
-I.heuristic = 7; %2 = Dmin, 2.5 Dcom A*, 7 Dcom oracle
+I.config = 2; %0 = fixed intial configuration, 1 = random configuration, 2 = imported, 3 = cluster start
+I.obs = 2; %1 for generated obstacle, 2 for imported obstacle, 3 for no obstacles, 4 for random
+%Note: the below parameters not relevant to the selected configuration and
+%obstacle mode will be ignored
+
+%For importing configurations/obstacles
+I.ranConfig = 1; %the configuration number to be imported
+I.ranObs = 4; %The obstacle number to be imported
+
+%For a fixed/clustered initial configuration
+I.numBotsX = 3; %Number of columns of modules
+I.numBotsY = 4; %Number of rows of modules
+
+%For obstacles
+I.numObstacles = 2;%Number of obstacles that will populate the world
+I.posobs=[9.5 0.5;5 9]; %x and y location/s of the generated obstacle/s
+
+%For the A*-Search
 I.alpha = 0; %increase to improve connection redundancy
-I.debugOn = 1;
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Initialize Robots and obstacles
+I.heuristic = 2.5; %2 = Dmin, 2.5 = Dcom A*, 7 = Dcom oracle
+
+%Convergence criteria,
+I.Converge = 2; %2 = 2R, 0.1 = 2R + some std, 0.2 = within a specified radius
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%Initialize the modules and the world
 [bots,world,I]=Initialization(I);
 
-%Optimal search algorithm
+%%Run the above described algorithm and returns the final state
 [win_state,visited,stack,childrenPerNode] = Astar(bots,world,I);
 
-%Construct path
+%%Reconstruct the path
 plan = Reconstruct(win_state,visited,I);
 
-%Get test metrics
+%%Plots a graph and saves relavent data to a .mat file
 Metrics(plan,childrenPerNode,stack,visited,I);
 
-%Animate path
+%%Creates a video of the path generated
 Animate(plan,I);
 
 close all;

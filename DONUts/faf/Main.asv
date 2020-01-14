@@ -1,48 +1,47 @@
 %%FAF rigid simulation for the DONUTS
 %%This algorithm moves the bot with the highest gradient forward
 
-%%the current parameters will run a 10 module simulation, starting in an
-%%imported configuration and imported obstacle-filled environment
+%%the current parameters will run a 10 module simulation, starting in a
+%%cluster, in a clear environment
 warning off MATLAB:polyshape:repairedBySimplify
-clear all; close all;
 
-%1) File paths
+%1)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %adding/removing folders to the path
-addpath(genpath('C:\path\DONUts\util'))
-rmpath('C:\path\DONUts\util\util-oracle')
+addpath(genpath('C:\path\DONUts_Simulation-master\DONUts\util'))
+rmpath('C:\path\DONUts_Simulation-masterDONUts\util\util-oracle')
+clear all; close all;
 
 %The location to save videos, images, and .mat files
-I.pathname = 'C:\path\DONUts\Data\trial1\';
+I.pathname = 'C:\path\DONUts_Simulation-master\DONUts\Data\trial1\';
 %The locations to import saved configurations and obstacles
-I.readfileObs = 'C:\path\DONUts\Data\Obstacles\';
-I.readfileBots = 'C:\path\DONUts\Data\Configurations\';
+I.readfileObs = 'C:\path\DONUts_Simulation-master\DONUts\Data\Obstacles\';
+I.readfileBots = 'C:\path\DONUts_Simulation-master\DONUts\Data\Configurations\';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%2)Parameters
+%2
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
-I.numBots = 10; %Number of modules in the collective
-I.numEPMs = 12; %Number of EPMs on each module
-I.numIR = 4; %Number of IR sensors on each module
-
-I.config = 2; %0 = fixed intial configuration, 1 = random configuration, 2 = imported, 3 = cluster start
-I.obs = 2; %1 for generated obstacle, 2 for imported obstacle, 3 for no obstacles, 4 for random
+%Parameters
+I.config = 1; %0 for fixed intial configuration, 1 for random configuration, 2 for imported, 3 for cluster start
+I.obs = 3; %1 for generated obstacle, 2 for imported obstacle, 3 for no obstacles, 4 for random
 %Note: the below parameters not relevant to the selected configuration and
 %obstacle mode will be ignored
 
-%For importing configurations/obstacles
 I.ranConfig = 1; %the configuration number to be imported
 I.ranObs = 4; %The obstacle number to be imported
 
-%For a fixed/clustered initial configuration
+I.numBots = 10; %Number of modules in the collective
+
+%For a fixed
 I.numBotsX = 3; %Number of columns of modules
 I.numBotsY = 4; %Number of rows of modules
+I.numEPMs = 12; %Number of EPMs on each module
+I.numIR = 4; %Number of IR sensors on each module
 
-%For obstacles
 I.numObstacles = 2;%Number of obstacles that will populate the world
 I.posobs=[9.5 0.5;5 9]; %x and y location/s of the generated obstacle/s
 
-%Convergence criteria,
+%convergence criteria,
 I.Converge = 2; %2 = 2R, 0.1 = 2R + some std, 0.2 = within a specified radius
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 

@@ -2,7 +2,11 @@
 %%Takes in the variables set by the user and returns the world and bots
 
 function [bots,world,I] = Initialization(I)
+I.obsName = num2str(I.ranObs);
+I.configName = num2str(I.ranConfig);
+I.planname = strcat(I.configName,'.mp4');
 I.testing = 0;
+I.debugOn = 1;
 I.goalBot = [];
 I.test = 0;
 I.l = 0;
@@ -90,8 +94,8 @@ elseif I.config==1
         y(i) = bots(i).coordinates(2);
     end
     I.startCOMX = round(mean(x),4); I.startCOMY = round(mean(y),4);
-    I.goal(1) = round(I.startCOMX + (I.numBots*I.botDiam)*cosd(I.theta),4);
-    I.goal(2) = round(I.startCOMY + (I.numBots*I.botDiam)*sind(I.theta),4);
+    I.goal(1) = round(I.startCOMX + (I.numBots*I.botDiam)/sqrt(2),4);
+    I.goal(2) = round(I.startCOMY + (I.numBots*I.botDiam)/sqrt(2),4);
     world.goal = rectangle('Position',[(I.goal(1)-.2) (I.goal(2)-.2) .55 .55],'FaceColor',[0 1 0]);
 elseif I.config==2
     matfile = strcat(I.readfileBots,I.configName,'.mat');

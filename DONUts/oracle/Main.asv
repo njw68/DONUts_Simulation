@@ -1,5 +1,5 @@
-%%FAF rigid simulation for the DONUTS
-%%This algorithm moves the bot with the highest gradient forward
+%%Oracle simulation for the DONUTS
+%%this algorithm uses A* search to plan an optimal path to the goal
 
 %%the current parameters will run a 10 module simulation, starting in an
 %%imported configuration and imported obstacle-filled environment
@@ -9,14 +9,14 @@ clear all; close all;
 %1) File paths
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %adding/removing folders to the path
-addpath(genpath('C:\path\DONUts\util'))
-rmpath('C:\path\DONUts\util\util-oracle')
+addpath(genpath('C:\path\DONUts_Simulation-master\DONUts\util'))
+rmpath('C:\path\DONUts_Simulation-masterDONUts\util\util-oracle')
 
 %The location to save videos, images, and .mat files
-I.pathname = 'C:\path\DONUts\Data\trial1\';
+I.pathname = 'C:\path\DONUts_Simulation-master\DONUts\Data\trial1\';
 %The locations to import saved configurations and obstacles
-I.readfileObs = 'C:\path\DONUts\Data\Obstacles\';
-I.readfileBots = 'C:\path\DONUts\Data\Configurations\';
+I.readfileObs = 'C:\path\DONUts_Simulation-master\DONUts\Data\Obstacles\';
+I.readfileBots = 'C:\path\DONUts_Simulation-master\DONUts\Data\Configurations\';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %2)Parameters
@@ -42,20 +42,27 @@ I.numBotsY = 4; %Number of rows of modules
 I.numObstacles = 2;%Number of obstacles that will populate the world
 I.posobs=[9.5 0.5;5 9]; %x and y location/s of the generated obstacle/s
 
+%For the A*-Search
+I.alpha = 0; %increase to improve connection redundancy
+I.heuristic = 2.5; %2 = Dmin, 2.5 = Dcom A*, 7 = Dcom oracle
+
 %Convergence criteria,
 I.Converge = 2; %2 = 2R, 0.1 = 2R + some std, 0.2 = within a specified radius
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%Initialize the modules and the world
-[modules,world,I]=Initialization(I);
+[bots,world,I]=Initialization(I);
 
-%%Run the above described algorithm and return the constructed path
-modulePlan = Faf1(modules,world,I); %can change to faf0
+%%Run the above described algorithm
+[win_state,visited,stack,childrenPerNode] = Astar(bots,world,I);
 
-%%Plots a graph and saves relavent data to a .mat file
-I = Metrics(modulePlan,I);
+%Construct path
+plan = Reconstruct(win_state,visited,I);
 
-%%Creates a video of the path generated
-Animate(modulePlan,I);
+%Get test metrics
+Metrics(plan,childrenPerNode,stack,visited,I);
+
+%Animate path
+Animate(plan,I);
 
 close all;

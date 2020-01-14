@@ -10,7 +10,7 @@ for bot=1:length(world.canMove)
                     bot_rotate = bots(bot).EPMs(4,magpos);
                     if bots(bot).EPMs(5,magpos) == 1
                         moves = 1;
-                        [Tri,I] = SensorObsDetection3(bots,I,bot);
+                        [Tri,I] = SensorObsDetection(bots,I,bot);
                         [bots,world,moves,I] = CWCheck(bots,world,I,moves,bot,bot_rotate,both,Tri,sensorPos,magpos);
                         bots(bot).EPMs(5,magpos) = moves;
                     %If mover bot can move CCW   
@@ -19,7 +19,7 @@ for bot=1:length(world.canMove)
 
                         sensorPos = 1:4;
                         dir = -1;
-                        [Tri,I] = SensorObsDetection3(bots,I,bot);
+                        [Tri,I] = SensorObsDetection(bots,I,bot);
                         [bots,world,moves,I] = CCWCheck(bots,world,I,moves,bot,bot_rotate,both,Tri,sensorPos,magpos);
                         bots(bot).EPMs(5,magpos) = moves;
                         
@@ -29,7 +29,7 @@ for bot=1:length(world.canMove)
                         %CW
                         sensorPos = 1:4;
                         dir = 1;
-                        [Tri,I] = SensorObsDetection3(bots,I,bot);
+                        [Tri,I] = SensorObsDetection(bots,I,bot);
                         [bots,world,moves,I] = CWCheck(bots,world,I,moves,bot,bot_rotate,both,Tri,sensorPos,magpos);
                         %CCW
                         sensorPos = 1:4;
