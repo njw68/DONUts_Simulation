@@ -180,4 +180,5 @@ I.sign = ones(2,I.numBots);
 bots = ConnectionDetermination(bots,I);
 [bots,world,I] = TransitionDetermination(bots,world,I);
 I = Plot(bots,I); %plots the bots and world
+disp('running...')
 end
