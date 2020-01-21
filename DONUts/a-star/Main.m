@@ -10,15 +10,18 @@ clear all; close all;
 
 %1) File paths
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
+%set the PATH variable to the folder location, up to 'DONUts_Simulation-master'
+%ex: 'PATH = 'C:\Users\petersenlab\Desktop\DONUts_Simulation-master'
+PATH = 'C:\Users\petersenlab\Desktop\DONUts_Simulation-master';
 %adding/removing folders to the path
-addpath(genpath('C:\path\DONUts\util'))
-rmpath('C:\path\DONUts\util\util-oracle')
+addpath(genpath(strcat(PATH,'\DONUts\util')))
+rmpath(strcat(PATH,'\DONUts\util\util-oracle'))
 
 %The location to save videos, images, and .mat files
-I.pathname = 'C:\path\DONUts\Data\trial1\';
+I.pathname = strcat(PATH,'\DONUts\Data\trial1\');
 %The locations to import saved configurations and obstacles
-I.readfileObs = 'C:\path\DONUts\Data\Obstacles\';
-I.readfileBots = 'C:\path\DONUts\Data\Configurations\';
+I.readfileObs = strcat(PATH,'\DONUts\Data\Obstacles\');
+I.readfileBots = strcat(PATH,'\DONUts\Data\Configurations\');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %2)Parameters
