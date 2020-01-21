@@ -13,7 +13,7 @@ There are 4 different centralized coordination strategies:
 
 INSTRUCTIONS:
 
-Operation is done from the 'oracle', 'faf', or 'centralized' folder's Main.m file.
+Operation is done from the 'oracle', 'faf', or 'a-star' folder's Main.m file.
 
 Sample configurations and obstacles can be imported from the 'Configurations' and 'Obstacles' folders respectively.
 
