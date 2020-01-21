@@ -25,3 +25,5 @@ All 'Main.m' files are configured to run various simulations with a few adjustme
 
 1) change all file locations to reflect your personal directories
 2) change the desired parameters to set up your simulation environment
+
+These steps are numbered in each 'Main.m' file. There are more detailed instructions for each step there. 
