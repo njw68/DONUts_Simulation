@@ -1,10 +1,11 @@
 # DONUts_Simulation
-This is a simulation framework to support the Deformable self-Organizing Nomadic Units (DONUts) modular robot,
+This is a framework to support the Deformable self-Organizing Nomadic Units (DONUts) modular robot,
 developed in the Collective Embodied Intelligence Lab at Cornell University. The paper is available here: https://doi.org/10.3389/frobt.2020.00044 Contact: njw68@cornell.edu with
 questions.
 
-This is a simulation framework to support coordination of the DONUts modular robot. The DONUts-Hardware folder contains
-schematic files for the DONUts hardware.
+The 'DONUts-Hardware' folder contains schematic files for the DONUts hardware.
+
+The 'DONUts' folder contains the simulation framework to support coordination of the DONUts modular robot.
 Included are algorithms to support basic functionalities of the DONUts such as communication, sensing and movement.
 There are 4 different centralized coordination strategies:
 1) oracle: an optimal, A* search-based planner, with a priori knowledge of the environment
