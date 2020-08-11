@@ -1,20 +1,22 @@
 %Transition Determination
+%%This function calculates the possible moves each module can take
+%%in the current time step, and returns a updated 'bots', 'world',
+%%and 'I' structs
+
 function [bots,world,I] = TransitionDetermination(bots,world,I)
-%%At the start of each iteration, all robots start as having 24
-%%possible moves. This is identified by all having a value of 1 in the
-%%canMove array and a value of 2 in the possibleMove array.
 world.canMove = ones(1,I.numBots);
 for i=1:I.numBots
     bots(i).EPMs(5,:) = 2;
 end
-%for keeping track of which bots have detected obstacles
+%For keeping track of which bots have detected obstacles
 world.obstacleDetect = zeros(2,I.numBots);
 world.botDetect = zeros(1,I.numBots);
-%%Checks if a robot has less than 5 connections. If it does then it is 
-%%marked as still able to move.
+
+%Ensures 'Motion Restriction 2' is not violated
 [bots,world,I] = ConnectionNumberValidation(bots,world,I);
 bots = ConnectionAngleValidation(bots,world,I);
-%%updates possible transitions
+
+%Updates possible transitions
 for k = 1:I.numBots
     possibleToMove = 0;
     for i = 1:I.numEPMs
@@ -26,9 +28,12 @@ for k = 1:I.numBots
         world.canMove(k) = 0;
     end
 end
-%%obstacle avoidance
+
+%Ensures the move won't cause a collision with
+%an obstacle
 [bots,world,I] = ObstacleAvoidance(bots,world,I);
-%%update possible transitions
+
+%Updates possible transitions
 for k = 1:I.numBots
     possibleToMove = 0;
     for i = 1:I.numEPMs
@@ -40,7 +45,10 @@ for k = 1:I.numBots
         world.canMove(k) = 0;
     end
 end
-%check for disconnections
+
+%Ensures 'Motion Restriction 3' is not violated;
+%the move won't disrupt global connectivity
+%in the collective
 [bots,world] = DisconnectionCheck(bots,world,I);
 
 
