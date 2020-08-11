@@ -1,3 +1,8 @@
+%%This function determines whether a module will collide with
+%%an obstacle. It checks in the CW and CCW directions, and
+%%returns updated 'bots', 'world', and 'I' sturcts with
+%%removed transitions
+
 function [bots,world,I] = ObstacleAvoidance(bots,world,I)
 both = [];
 for bot=1:length(world.canMove)
